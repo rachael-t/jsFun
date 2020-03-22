@@ -16,11 +16,15 @@ const context = {
 
 
     // What is the value of `this` when we call ship.fly()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // arrow function called fly, logs this
+    // defining class with instance property fly that references the fly function previously defined
+    // instantiating new object called ship that passes in two arguments, a title and classification
+    // so the fly property on the ship object references the function on lines 3 - 4
+    // the fly function is an arrow function (ES6) - arrow functions determine the value of this upon creation/declaration NOT invocation. value of this is global window object
   },
 
   exerciseB() {
@@ -30,11 +34,13 @@ const context = {
     }
 
     // What is the value of `this` when we call fn()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // declaring a function fn using ES5
+    // the fn() declares a variable value, and assigns it the value of 2
+    // it returns this.value, and the value of this for this is the global window object because it is an ES5 function being invoked within that context and  by default this refers to the global object
   },
 
   exerciseC() {
@@ -49,11 +55,11 @@ const context = {
     el.addEventListener('click', car.getInfo);
 
     // What is the value of `this` when a user clicks on our element and car.getInfo() is triggered?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'el';
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // ES5 function, so value is set when the function is executed - in this case the function is executed when their is a click on the element, el so this refers to the listener element, not object
   },
 
   exerciseD() {
