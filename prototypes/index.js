@@ -96,10 +96,20 @@ const clubPrompts = {
     //   ...etc
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = clubs.reduce((acc, club) => {
+      club.members.forEach(name => {
+        if(!acc[name]) {
+          acc[name] = []
+        }
+        acc[name].push(club.club)
+      })
+      return acc
+    }, {});
+
     return result;
 
     // Annotation:
+    //I originally did it with two forEach methods but for this to work I needed to create a variable and set that equal to an empty object {} and push into that, then return that, but that doesn't seem like it would work for this format, so I switched to the reduce and forEach
     // Write your annotation here as a comment
   }
 };
