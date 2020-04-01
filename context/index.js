@@ -78,10 +78,14 @@ const context = {
     var breed = dog.getBreed();
 
     // What is the value of `this` when we call breed()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // Annotation:
+    //create the object dog
+    //the property getBreed is a function... with a function defined within it called innerFunction that logs this.breed
+    //breed() = dog.getBreed() = function() = innerFunction
+    //global window object by default (first two rules don't apply)
     // Write your annotation here as a comment
   },
 
@@ -94,10 +98,11 @@ const context = {
 
 
     // What is the value of `this` when we call fn()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // Annotation:
+    //global window object by default (first two rules don't apply)
     // Write your annotation here as a comment
   },
 
@@ -117,10 +122,11 @@ const context = {
     const storm = new Hero('Ororo', 'weather control', true);
 
     // What is the value of `this` when we call storm.identifyHero()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'instance of Hero';
     return result;
 
     // Annotation:
+    //ES5 - to the left of the dot - this will be storm which is an instance of Hero
     // Write your annotation here as a comment
   },
 
@@ -165,7 +171,7 @@ const context = {
     obj.method();
 
     // What is the value of `this` when we call obj.arrowFunction()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'obj';
     return result;
 
     // Annotation:

@@ -34,13 +34,13 @@ describe("CONTEXT", () => {
   }), it("exerciseE", () => {
     const e = "global window object" == context.exerciseE();
     expect(e).withMessage("Your result is not the correct context").to.be.true
-  }), it("exerciseF", () => {
+  }), it.only("exerciseF", () => {
     const e = "instance of Hero" == context.exerciseF();
     expect(e).withMessage("Your result is not the correct context").to.be.true
   }), it("exerciseG", () => {
     const e = "global window object" == context.exerciseG();
     expect(e).withMessage("Your result is not the correct context").to.be.true
-  }), it("exerciseH", () => {
+  }), it.only("exerciseH", () => {
     const e = "obj" == context.exerciseH();
     expect(e).withMessage("Your result is not the correct context").to.be.true
   }), it("exerciseI", () => {
