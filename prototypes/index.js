@@ -576,11 +576,24 @@ const turingPrompts = {
     //  { name: 'Robbie', studentCount: 18 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = instructors.reduce((acc, instructor) => {
+      let instDetail = {};
+      instDetail.name = instructor.name;
+      cohorts.forEach(cohort => {
+        if(cohort.module === instructor.module) {
+          instDetail.studentCount = cohort.studentCount
+        }
+      })
+      acc.push(instDetail);
+      return acc;
+    }, [])
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // need to return a NEW array of objects
+    // each object is for one instructor, and has the properties of name (from the instructors dataset) and studentCount (from the cohorts dataset)
+    // need to first iterate over the instrctors array to get the name to add to the new object
+    // then need to iterate over the cohorts array and check if the instrutor's module matches the module in the cohorts array and then take that matching module's studentCount and add to new object
   },
 
   studentsPerInstructor() {
@@ -590,11 +603,29 @@ const turingPrompts = {
     // cohort1804: 10.5
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cohorts.reduce((acc, mod) => {
+      let number = `cohort${mod.cohort}`
+      acc[number] = 0;
+      let counter = 0;
+      instructors.forEach(instructor => {
+        if(instructor.module === mod.module) {
+          counter++
+        }
+      })
+      acc[number] = (mod.studentCount / counter)
+      return acc
+    }, {});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // need to create and return a new object
+    // first iterate over cohorts dataset
+    // one key value pair
+    // key is cohorts.cohort value
+    // then iterate over instructors dataset
+    // create an instructor counter
+    // if instructor.module equals cohort.module then add to instructor counter
+    // then take cohort.studentCount and divide that by instructor counter and assign that to be the value of the key
   },
 
   modulesPerTeacher() {
@@ -612,11 +643,25 @@ const turingPrompts = {
     //     Will: [1, 2, 3, 4]
     //   }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = instructors.reduce((acc, instructor) => {
+      acc[instructor.name] = [];
+      cohorts.forEach(cohort => {
+        cohort.curriculum.forEach(curr => {
+          if(instructor.teaches.includes(curr)) {
+            if(!acc[instructor.name].includes(cohort.module)) {
+            acc[instructor.name].push(cohort.module)
+            }
+          }
+        })
+      })
+      return acc
+    }, {})
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // two data files
+    // instructors has names
+    // reduce object key name (loop through inst) value is adding an array based on the curriculum
   },
 
   curriculumPerTeacher() {
@@ -629,11 +674,29 @@ const turingPrompts = {
     //   recursion: [ 'Pam', 'Leta' ]
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cohorts.reduce((acc, cohort) => {
+      cohort.curriculum.forEach(curr => {
+        if(!acc[curr]) {
+          acc[curr] = [];
+        }
+        instructors.forEach(instructor => {
+          instructor.teaches.forEach(topic => {
+            if(curr === topic) {
+              if(!acc[curr].includes(instructor.name)) {
+              acc[curr].push(instructor.name)
+              }
+            }
+          })
+        })
+      })
+      return acc
+    }, {})
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // iterate over cohort curriculum
+    // for each string in that array, set it as the key name but check to make sure that it doesn't exist already
+    // then iterate over the instructors and teaches to check if teaches string matches cohort curriculum
   }
 };
 
