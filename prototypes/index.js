@@ -338,7 +338,13 @@ const bookPrompts = {
     //   'Catch-22', 'Treasure Island']
 
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = books.reduce((acc, book) => {
+        if (book.genre !== 'Horror' && book.genre !== 'True Crime') {
+          console.log(book.genre)
+          acc.push(book.title)
+        }
+        return acc
+      }, [])
     return result;
 
     // Annotation:
@@ -353,11 +359,23 @@ const bookPrompts = {
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = books.reduce((acc, book) => {
+      let newBooks = {};
+      if(book.published >= 1990) {
+        newBooks.title = book.title
+        newBooks.year = book.published
+        acc.push(newBooks)
+      }
+      return acc;
+    }, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // what we want back is an array of objects
+    // each object represents a book
+    // it has two key value pairs - one for title and the other for year
+    // we want to iterate over the books array
+    // and for each book, if the published year is >= 1990, then add it to the new array
   }
 
 };
