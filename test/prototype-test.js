@@ -1,5 +1,7 @@
 const chai = require("chai");
 const expect = chai.expect;
+/* eslint-disable */
+/* stylelint-disable */
 
 const {
   breweryPrompts,
@@ -569,7 +571,7 @@ describe("PROTOTYPES", () => {
         'Jurassic World': 11,
         'Jurassic World: Fallen Kingdom': 18
       })
-    }), it("averageAgePerMovie", () => {
+    }), it.only("averageAgePerMovie", () => {
       const e = dinosaurPrompts.averageAgePerMovie();
       expect(e).to.deep.equal({
         'Steven Spielberg': {

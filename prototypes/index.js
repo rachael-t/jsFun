@@ -13,7 +13,8 @@ const { constellations, stars } = require('./datasets/astronomy');
 const { weapons, characters } = require('./datasets/ultima');
 const { dinosaurs, humans, movies } = require('./datasets/dinosaurs');
 
-
+/* eslint-disable */
+/* stylelint-disable */
 
 
 
@@ -286,7 +287,7 @@ const classPrompts = {
     //   { roomLetter: 'G', program: 'FE', capacity: 29 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.filter(room => room.program === 'FE');
     return result;
 
     // Annotation:
@@ -301,7 +302,16 @@ const classPrompts = {
     //   beCapacity: 96
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.reduce((obj, room) => {
+      obj['feCapacity'] = 0;
+      obj['beCapacity'] = 0;
+      if (room.program === 'FE') {
+        obj['feCapacity'] += room.capacity
+      } else if (room.program === 'BE') {
+        obj['beCapacity'] += room.capacity
+      }
+      return obj
+    }, {})
     return result;
 
     // Annotation:
@@ -787,11 +797,28 @@ const astronomyPrompts = {
     //     color: 'red' }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = Object.keys(constellations).reduce((acc, constellation) => {
+      constellations[constellation].stars.forEach(constStar => {
+        stars.forEach(star => {
+          if(star.name === constStar) {
+            acc.push(star)
+          }
+        })
+      })
+      return acc;
+    }, [])
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // we have an object and an array of objects
+    // return an array of stars that appear in any of the constellations listed in the constellations object
+    // need to check and see if the stars in the stars array are included in the constellations object
+    // iterate over the stars to see if they are included in constellations
+      // if stars.name is included in constellations.stars
+    // if they are included we will need to add them to the final array
+      // push to array that we will create
+    // if they aren't, don't do anything because we don't need it
+    // return an array of the star object that was found in the constellation
   },
 
   starsByColor() {
@@ -805,7 +832,13 @@ const astronomyPrompts = {
     //   red: [{obj}]
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = stars.reduce((acc, star) => {
+      if(!acc[star.color]) {
+        acc[star.color] = [];
+      }
+      acc[star.color].push(star);
+      return acc;
+    }, {});
     return result;
 
     // Annotation:
@@ -907,11 +940,23 @@ const dinosaurPrompts = {
     //   'Jurassic World: Fallen Kingdom': 18
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = movies.reduce((acc, movie) => {
+      acc[movie.title] = 0;
+      movie.dinos.forEach(dino => {
+        if (dinosaurs[dino].isAwesome) {
+          acc[movie.title]++
+        }
+      })
+      return acc
+    }, {})
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // going to look over the movies array
+    // for each object in that array, we want to take the title and assign it as a new key name for our new object that we will be returning at the end
+    // as we are looking at each movie, we want to look at the dinos property
+    // since this is an array, we will be iterating over each string and checking it against the dinosaurs array
+    // if there is a match, AND the dinosaur isAwesome (true) then add it to the value of the title property
   },
 
   averageAgePerMovie() {
@@ -940,11 +985,27 @@ const dinosaurPrompts = {
       }
     */
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = movies.reduce((acc, movie) => {
+      let totalAge = 0;
+      if (!acc[movie.director]) {
+        acc[movie.director] = {};
+      }
+      if (!acc[movie.director].hasOwnProperty(movie.title)) {
+        acc[movie.director][movie.title] = 0;
+        movie.cast.forEach(person => {
+          totalAge += movie.yearReleased -humans[person].yearBorn;
+        })
+      }
+      let avgAge = Math.floor(totalAge / movie.cast.length)
+      acc[movie.director][movie.title] = avgAge;
+      return acc;
+    }, {});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // iterate over the movies array and for each movie, set the director's name as a property in the new object that will be returned at the end
+    // we are assigning the value to be a new object, which has a property of movie.title
+    // we need to iterate over the cast array, and for a cast member, access the humans object with their name (humans[name].yearBorn) and we will need to subtract their yearBorn from movie.yearReleased and set that to be the value of the movie.title property
   },
 
   uncastActors() {
