@@ -197,31 +197,36 @@ const scope = {
     var dog = 'Spot';
 
     function petDog() {
-      // Log A: dog
+      // 1 Log A: dog spot
 
       if (dog === 'Spot') {
         let dog = 'Fluffy';
       }
 
       function rollOver() {
-        // Log B: dog
+        // 2 Log B: dog spot
 
         dog = 'Biscuit';
 
-        // Log C: dog
+        // 3 Log C: dog biscuit
 
       }
 
       rollOver();
 
-      // Log D: dog
+      // 4 Log D: dog biscuit
     }
 
     petDog();
 
-    // Log E: dog
+    // 5 Log E: dog biscuit
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { 'A': 'Spot' },
+      { 'B': 'Spot' },
+      { 'C': 'Biscuit' },
+      { 'D': 'Biscuit' },
+      { 'E': 'Biscuit' }];
     return result;
 
     // Annotation:
@@ -526,7 +531,9 @@ const scope = {
 
     // Log C: lunch
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { 'B': 'soup' },
+      { 'C': 'soup' }];
     return result;
 
     // Annotation:
