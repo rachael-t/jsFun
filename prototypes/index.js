@@ -338,15 +338,13 @@ const classPrompts = {
     // }
 
     const result = classrooms.reduce((obj, room) => {
-      obj['feCapacity'] = 0;
-      obj['beCapacity'] = 0;
       if (room.program === 'FE') {
         obj['feCapacity'] += room.capacity
       } else if (room.program === 'BE') {
         obj['beCapacity'] += room.capacity
       }
       return obj
-    }, {})
+    }, { 'feCapacity': 0, 'beCapacity': 0})
     return result;
 
     // Annotation:
