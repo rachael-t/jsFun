@@ -321,11 +321,12 @@ const classPrompts = {
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.sort((a, b) => a.capacity - b.capacity)
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // we have an array of objects
+    // return a sorted version of this array, which is sorted based on each object's capacity value
   }
 };
 
@@ -404,11 +405,20 @@ const weatherPrompts = {
     // return an array of all the average temperatures. Eg:
     // [ 40, 40, 44.5, 43.5, 57, 35, 65.5, 62, 14, 46.5 ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = weather.map(city => {
+      let total = city.temperature.high + city.temperature.low
+      let average = total / 2
+      return average
+    })
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // inut: array of objects
+    // output: array
+    // weather has temperature property
+    // the temperature property value is an object with two key value pairs that I need to add together and divide by 2 to get the average
+    // this result will be pushed into my new array and returned
+
   },
 
   findSunnySpots() {
@@ -418,11 +428,19 @@ const weatherPrompts = {
     // 'New Orleans, Louisiana is sunny.',
     // 'Raleigh, North Carolina is mostly sunny.' ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = weather.reduce((acc, city) => {
+      if (city.type.includes('sunny')) {
+        acc.push(`${city.location} is ${city.type}.`)
+      }
+      return acc;
+    }, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Input: array of objects
+    // Output: array of strings
+    // we are looking for cities that have a type that includes the word sunny
+    // if it does, then add the name and type into a string
   },
 
   findHighestHumidity() {
@@ -434,11 +452,13 @@ const weatherPrompts = {
     //   temperature: { high: 49, low: 38 }
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = weather.sort((a, b) => b.humidity - a.humidity)[0]
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // an array of objects
+    // need to return just one object
+    // this one object will be the object from the original array which has the highest humidity
 
   }
 };
@@ -754,8 +774,9 @@ const bossPrompts = {
     //   { bossName: 'Ursula', sidekickLoyalty: 20 },
     //   { bossName: 'Scar', sidekickLoyalty: 16 }
     // ]
+    let bossNames = Object.keys(bosses);
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'result';
     return result;
 
     // Annotation:
@@ -891,23 +912,54 @@ const ultimaPrompts = {
     // Return the sum of the amount of damage for all the weapons that our characters can use
     // Answer => 113
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const weaponNames = Object.keys(weapons)
+
+    const result = weaponNames.reduce((acc, weapon) => {
+      characters.forEach(character => {
+        character.weapons.forEach(tool => {
+          if (tool === weapon) {
+            acc += weapons[weapon].damage
+          }
+        })
+      })
+      return acc
+    }, 0);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // check over the characters array of objects.
+    // for each character's weapons, check that the weapon matches a weapon object. if it does add the weapon's damage property value to a running today
   },
 
   charactersByTotal() {
 
     // Return the sum damage and total range for each character as an object.
     // ex: [ { Avatar: { damage: 27, range: 24 }, { Iolo: {...}, ...}
+    const weaponNames = Object.keys(weapons)
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = characters.reduce((acc, character) => {
+      let charTotal = {};
+      charTotal[character.name] = 0;
+      let detailsObj = {};
+      detailsObj['damage'] = 0;
+      detailsObj['range'] = 0;
+      character.weapons.forEach(tool => {
+        weaponNames.forEach(weapon => {
+          if(tool === weapon) {
+            detailsObj['damage'] += weapons[weapon].damage;
+            detailsObj['range'] += weapons[weapon].range;
+          }
+        })
+        charTotal[character.name] = detailsObj;
+      })
+      acc.push(charTotal)
+      return acc
+    }, [])
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // need to return an array of new objects
+    // this array has a character's name as a property, with a value of an object that is the sum of their weapon's damage and range
   },
 };
 
