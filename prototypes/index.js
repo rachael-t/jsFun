@@ -516,11 +516,21 @@ const nationalParksPrompts = {
     //   parksVisited: ["Rocky Mountain", "Acadia", "Zion"]
     //}
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = nationalParks.reduce((acc, park) => {
+      if (!park.visited) {
+        acc.parksToVisit.push(park.name);
+      } else {
+        acc.parksVisited.push(park.name);
+      }
+      return acc;
+    }, { parksToVisit: [], parksVisited: [] });
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: array of objects
+    // output: an object with key values of arrays
+    // iterate over the NP array objects. for each park, if visited is true, add the park name to a property called parksVisited, if visited is false, add park name to a property called parksToVisit
+
   },
 
   getParkInEachState() {
@@ -533,7 +543,12 @@ const nationalParksPrompts = {
     // { Florida: 'Everglades' } ]
 
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = nationalParks.reduce((acc, park) => {
+      let state = {}
+      state[park.location] = park.name
+      acc.push(state)
+      return acc;
+    }, []);
     return result;
 
     // Annotation:
@@ -556,7 +571,14 @@ const nationalParksPrompts = {
     //   'backpacking',
     //   'rock climbing' ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = nationalParks.reduce((acc, park) => {
+      park.activities.forEach(activity => {
+        if (!acc.includes(activity)) {
+          acc.push(activity)
+        }
+      })
+      return acc;
+    }, []);
     return result;
 
     // Annotation:
@@ -583,11 +605,18 @@ const breweryPrompts = {
     // Return the total beer count of all beers for every brewery e.g.
     // 40
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.reduce((acc, brewery) => {
+      acc += brewery.beers.length;
+      return acc;
+    }, 0);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: array of objects
+    // output: number
+    // look over each brewery and get the length of the beers array
+    // add that total to a counter before moving on to next brewery
+
   },
 
   getBreweryBeerCount() {
@@ -599,11 +628,19 @@ const breweryPrompts = {
     // ...etc.
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.reduce((acc, brewery) => {
+      let brewBeerCount = {};
+      brewBeerCount['name'] = brewery.name;
+      brewBeerCount['beerCount'] = brewery.beers.length;
+      acc.push(brewBeerCount);
+      return acc;
+    }, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: array of objects
+    // output: array of objects
+    // look at each brewery and for each one, create a new object of just the name and beerCount (beer.length) properties
   },
 
   findHighestAbvBeer() {
@@ -611,11 +648,19 @@ const breweryPrompts = {
     // e.g.
     // { name: 'Barrel Aged Nature\'s Sweater', type: 'Barley Wine', abv: 10.9, ibu: 40 }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    let beers = [];
+    const list = breweries.forEach(brewery => {
+      brewery.beers.forEach(beer => {
+        beers.push(beer)
+      })
+    })
+    const result = beers.sort((a, b) => b.abv - a.abv)
+    return result[0];
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: array of objects
+    // output: an object
+    // need to sort the beers of all breweries in order of highest to lowest ABV and return just the highest beer (the entire BEER object)
   }
 };
 
