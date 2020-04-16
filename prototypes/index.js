@@ -183,11 +183,20 @@ const cakePrompts = {
     //    ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((acc, cake) => {
+      let cakeStock = {};
+      cakeStock['flavor'] = cake.cakeFlavor;
+      cakeStock['inStock'] = cake.inStock;
+      acc.push(cakeStock)
+      return acc;
+    }, [])
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: array of objects
+    // output: array of objects (same #)
+    // new array of just the flavor and in stock
+    // iterate over array and for each cake that we are reviewing, I want to take the flavor and create a new key value pair with the old value, and take the cake's instock value pair as well
   },
 
   onlyInStock() {
@@ -211,22 +220,25 @@ const cakePrompts = {
     // ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.filter(cake => cake.inStock > 0);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // I want to review each cake in the cakes array and only return the objects that have an inStock value greater than 0
   },
 
   totalInventory() {
     // Return the total amount of cakes in stock e.g.
     // 59
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((acc, cake) => {
+      acc += cake.inStock;
+      return acc;
+    }, 0)
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // review each cake and add their inStock value to a counter to return
   },
 
   allToppings() {
@@ -234,11 +246,23 @@ const cakePrompts = {
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((acc, cake) => {
+      cake.toppings.forEach(topping => {
+        if (!acc.includes(topping)) {
+          acc.push(topping)
+        }
+      })
+      return acc;
+    }, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: array of objects
+    // output: array of strings
+    // review each cake in the array
+    // for each cake, I want to review it's toppings
+    // if the topping is unique, add it to the array, but if it's not, then don't
+    // return the final array of unique toppings
   },
 
   groceryList() {
@@ -252,11 +276,22 @@ const cakePrompts = {
     //    ...etc
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((acc, cake) => {
+      cake.toppings.forEach(topping => {
+        if (!acc[topping]) {
+          acc[topping] = 1;
+        } else {
+          acc[topping] += 1;
+        }
+      })
+      return acc;
+    }, {});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // input: array of objects
+    // output: object
+    // need to make a grocery list for each ingredient (key) with a value being the number of times that ingredient is listed for each cake
   }
 };
 
