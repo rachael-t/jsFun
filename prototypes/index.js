@@ -958,12 +958,19 @@ const astronomyPrompts = {
     //    "Orion",
     //    "The Little Dipper" ]
 
+    let sorted = stars.sort((a,b) => a.visualMagnitude - b.visualMagnitude)
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = sorted.reduce((acc, star) => {
+      if (!star.constellation.length == 0) {
+        acc.push(star.constellation)
+      }
+      return acc;
+    }, [])
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // iterate over stars array and sort by visualMagnitude
+    // then we want to return a new array of just the constellation name in the same order
   }
 };
 
